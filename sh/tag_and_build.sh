@@ -21,9 +21,8 @@ readonly START_POINT_IMAGE_NAME=$( \
     "${TAG}")
 
 cat << EOF > "${TMP_DIR}/Dockerfile"
-FROM alpine:latest
+FROM busybox:latest
 COPY . /start_point
-ARG SHA=${SHA}
 ENV SHA=${SHA}
 EOF
 
