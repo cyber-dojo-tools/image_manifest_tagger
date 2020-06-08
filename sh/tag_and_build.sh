@@ -9,8 +9,9 @@ trap remove_tmp_dir INT EXIT
 
 readonly SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+readonly SHA=da83575b6f5cbc06c925bb081f213940f5cc22ca
 readonly START_POINT_DIR="${SRC_DIR}/start_point"  # <<<<<<<
-readonly TAG=${1:-def84a4}                         # <<<<<<<
+readonly TAG=${SHA:0:7}                            # <<<<<<<
 
 readonly START_POINT_IMAGE_NAME=$( \
   docker run \
@@ -22,6 +23,8 @@ readonly START_POINT_IMAGE_NAME=$( \
 cat << EOF > "${TMP_DIR}/Dockerfile"
 FROM alpine:latest
 COPY . /start_point
+ARG SHA=${SHA}
+ENV SHA=${SHA}
 EOF
 
 docker build \
