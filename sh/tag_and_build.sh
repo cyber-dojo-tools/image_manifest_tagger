@@ -1,22 +1,22 @@
 #!/bin/bash
 set -e
-
-# Workings/example on using image_manifest_tagger 
+set -x
+# Workings/example on using image_manifest_tagger
 
 readonly TMP_DIR=$(mktemp -d XXXXX)
 remove_tmp_dir() { rm -rf "${TMP_DIR}" > /dev/null; }
 trap remove_tmp_dir INT EXIT
 
-readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-readonly START_POINT_DIR="${MY_DIR}/start_point"  # <<<<<<<
-readonly TAG=${1:-def84a4}                        # <<<<<<<
+readonly START_POINT_DIR="${SRC_DIR}/start_point"  # <<<<<<<
+readonly TAG=${1:-def84a4}                         # <<<<<<<
 
 readonly START_POINT_IMAGE_NAME=$( \
   docker run \
     --volume "${START_POINT_DIR}:/start_point:rw" \
     --rm \
-    cyberdojotools/image_manifest_tagger \
+    cyberdojofoundation/image_manifest_tagger \
     "${TAG}")
 
 cat << EOF > "${TMP_DIR}/Dockerfile"
