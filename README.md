@@ -36,6 +36,6 @@ becomes:
 ```
 This tag cannot be in the `start_point/manifest.json` file already.
 There is a chicken and egg situation;
-you cannot know the commit SHA until after you have committed).
+you cannot know the commit SHA until *after* you have committed).
 So, on a CI run, we have to alter `start_point/manifest.json` file *in-place* (before building an image from it).
 That is what this tool does.
