@@ -5,13 +5,14 @@ The [cyber-dojo-languages](https://github.com/cyber-dojo-languages) github org h
 [java-junit](https://github.com/cyber-dojo-languages/java-junit)
 which each have two dirs, `docker/` and `start_point/`.  
 
-We need to build and publish a tagged language-test-framework image
-  * from the `docker/` dir, eg `cyberdojofoundation/java_junit:def84a4`
+The build script for each repo builds a docker image from the `docker/`
+dir using the `image_builder/image_build_test_push_notify.sh` script.
+This docker image is tagged with the 1st seven chars of the git commit sha of HEAD (on master)
+of the git repo. For example, `cyberdojofoundation/java_junit:def84a4`
 
-To test this tagged image we need to create a start-point image:
-  * from the `start_point/` dir
-    where has the `image_name` inside `start_point/manifest.json`
-    is tagged to match the first image (`def84a4`).
+To test this tagged image we need to create a start-point image from the `start_point/`
+dir where has the `image_name` inside `start_point/manifest.json` is tagged with `def84a4` so
+it refers to the image built from the `docker/` dir.
     For example:
     ```json
     {
@@ -26,18 +27,6 @@ To test this tagged image we need to create a start-point image:
       ...
     }
     ```
-
-
-The tag is the 1st seven chars of the git commit sha of HEAD (on master) of the git repo.
-
-Tagging the first image is straight forward.  
-The image has already been built for the test.  
-We simply tag it and push it to dockerhub.  
-
-Creating the second image is trickier.  
-We need to append the tag (`def84a4`) to the `image_name` property of `start_point/manifest.json`.  
-This tag cannot be in the `start_point/manifest.json` file already.
-There is a chicken and egg situation;
-you cannot know the commit SHA until *after* you have committed).
-So, on a CI run, we have to alter `start_point/manifest.json` file *in-place* (before building an image from it).
-That is what this tool does.
+The creation of this start-point image (with its modified `manifest.json`) is done by the command  
+`$ cyber-dojo start-point build NAME --languages <url>...`  
+which uses `image_manifest_tagger` to make this alteration.
