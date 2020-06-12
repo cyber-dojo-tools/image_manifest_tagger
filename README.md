@@ -13,21 +13,21 @@ of the git repo. For example, `cyberdojofoundation/java_junit:def84a4`
 To test this tagged image we need to create a start-point image from the `start_point/`
 dir where has the `image_name` inside `start_point/manifest.json` is tagged with `def84a4` so
 it refers to the image built from the `docker/` dir.  
-    For example:
-    ```json
-    {
-      "image_name": "cyberdojofoundation/java_junit",
-      ...
-    }
-    ```
-    becomes:
-    ```json
-    {
-      "image_name": "cyberdojofoundation/java_junit:def84a4",
-      ...
-    }
-    ```
-    
+For example:
+```json
+{
+  "image_name": "cyberdojofoundation/java_junit",
+  ...
+}
+```  
+becomes:  
+```json
+{
+  "image_name": "cyberdojofoundation/java_junit:def84a4",
+  ...
+}
+```
+
 The creation of this start-point image (with its modified `manifest.json`) is done by the command  
 `$ cyber-dojo start-point build NAME --languages <url>...`  
 which uses `image_manifest_tagger` to make this alteration.
